@@ -126,10 +126,14 @@
   @keyframes bob { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-14px) rotate(4deg); } }
   @media (max-width: 1000px) { .deco { display: none; } }
   .wa { display: flex; align-items: center; justify-content: center; gap: 10px; width: fit-content; max-width: 100%; margin: 18px auto 0; padding: 14px 18px; border-radius: 14px; background: #25d366; color: #fff; font-weight: 600; font-size: 1.05rem; text-decoration: none; box-shadow: 0 10px 22px rgba(37, 211, 102, .35); }
+  .cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 14px; }
+  .ig { background: linear-gradient(45deg, #f09433, #dc2743 55%, #bc1888); box-shadow: 0 10px 22px rgba(220, 39, 67, .3); }
   .wa svg { width: 26px; height: 26px; }
   .wa:active { transform: scale(.98); }
   @media (max-width: 600px) {
-    .wa { width: 100%; margin-top: 16px; }
+    .progress { display: none; }
+    .cta { flex-direction: column; gap: 0; width: 100%; }
+    .wa { width: 100%; margin-top: 12px; }
     body { flex-direction: column; justify-content: flex-start; padding: 12px 12px max(16px, env(safe-area-inset-bottom)); min-height: 100dvh; }
     .brand { position: static; margin: 4px auto 0; }
     .brand img { height: 64px; }
@@ -214,7 +218,7 @@
           </g>
         </g>
         <!-- progress bar -->
-        <g transform="translate(250 395)">
+        <g class="progress" transform="translate(250 395)">
           <rect width="300" height="14" rx="7" fill="#fff" fill-opacity=".2"/>
           <rect class="bar" width="300" height="14" rx="7" fill="#00baf2"/>
         </g>
@@ -239,10 +243,16 @@
     </div>
   </div>
 
+  <div class="cta">
   <a class="wa" href="https://wa.me/918461958162" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2a9.9 9.9 0 0 0-8.5 14.95L2 22l5.2-1.5A9.94 9.94 0 1 0 12.04 2zm0 18.1c-1.5 0-2.95-.4-4.2-1.15l-.3-.18-3.1.9.9-3-.2-.3a8.1 8.1 0 1 1 6.9 3.73zm4.45-6.05c-.25-.12-1.45-.72-1.68-.8-.23-.08-.4-.12-.56.12-.17.25-.65.8-.8.96-.15.17-.3.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.1-.5.12-.11.25-.3.37-.45.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.17-.47-.29z"/></svg>
     Chat on WhatsApp
   </a>
+  <a class="wa ig" href="https://www.instagram.com/ebuddha_digitech" target="_blank" rel="noopener" aria-label="Follow us on Instagram">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.25-3.25a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"/></svg>
+    Follow us on Instagram
+  </a>
+  </div>
 
   <footer>&copy; 2026 eBuddha Digitech. All rights reserved.</footer>
 </main>
