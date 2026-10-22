@@ -30,7 +30,7 @@
   main { width: 100%; max-width: 1280px; }
 
   /* Scene */
-  .scene { position: relative; width: fit-content; max-width: 100%; margin: 0 auto clamp(80px, 10vw, 125px); }
+  .scene { position: relative; width: fit-content; max-width: 100%; margin: 0 auto; }
   /* scene height is capped so the scene and the timer both fit on one screen */
   .scene svg { display: block; aspect-ratio: 800 / 456; height: min(57vw, calc(100vh - 200px), 730px); width: auto; max-width: 100%; }
   .headline {
@@ -91,27 +91,26 @@
 
   /* Timer */
   .timer {
-    display: grid;
-    grid-template-columns: 1fr;
-    text-align: center;
-    position: absolute;
-    top: 93%; left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     z-index: 3;
     width: min(820px, 96vw);
+    margin: calc(-1 * clamp(22px, 5vw, 60px)) auto 0;
+    padding: clamp(12px, 2.4vw, 20px) clamp(10px, 2vw, 20px);
     border-radius: 14px;
-    overflow: hidden;
     background: linear-gradient(180deg, var(--sky), #0072c6);
     box-shadow: 0 14px 30px rgba(0, 41, 112, .25);
     color: var(--white);
   }
-  .box { padding: clamp(10px, 2vw, 16px) 4px; }
-  .box + .box { border-left: 1px solid rgba(255,255,255,.35); }
-  .num { font-size: clamp(1.6rem, 6vw, 3.4rem); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
-  .label { margin-top: 4px; font-size: clamp(.6rem, 2vw, 1.05rem); letter-spacing: .12em; text-transform: uppercase; opacity: .9; }
+  .when { font-size: clamp(1.05rem, 4.6vw, 2.4rem); font-weight: 700; line-height: 1.15; }
+  .when span { white-space: nowrap; }
+  .cd { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(6px, 1.6vw, 14px); margin: clamp(10px, 2vw, 16px) 0; }
+  .box { padding: clamp(6px, 1.4vw, 10px) 2px; border-radius: 10px; background: rgba(0, 41, 112, .28); }
+  .num { font-size: clamp(1.4rem, 6vw, 3rem); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .label { margin-top: 2px; font-size: clamp(.55rem, 2vw, .9rem); letter-spacing: .12em; text-transform: uppercase; opacity: .9; }
+  .msg { font-size: clamp(.6rem, 2.3vw, 1.05rem); letter-spacing: .1em; text-transform: uppercase; opacity: .95; line-height: 1.4; }
   .done { display: none; font-size: 2rem; font-weight: 800; color: var(--sky); }
   .sub { margin: 24px auto 0; max-width: 460px; font-size: .95rem; line-height: 1.6; color: var(--navy); opacity: .75; }
-  footer { margin-top: 28px; font-size: .8rem; color: var(--navy); opacity: .6; }
+  footer { margin-top: 20px; font-size: .8rem; color: var(--navy); opacity: .6; }
 
 
   /* Corner decorations */
@@ -126,7 +125,7 @@
   .spark-r { right: 4%; top: 38%; width: clamp(18px, 2.2vw, 32px); animation: twinkle 3s ease-in-out -1s infinite; }
   @keyframes bob { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-14px) rotate(4deg); } }
   @media (max-width: 1000px) { .deco { display: none; } }
-  @media (max-width: 600px) { .brand { position: static; margin-bottom: 8px; } body { flex-direction: column; } }
+  @media (max-width: 600px) { .scene svg { height: auto; width: 100%; } .headline { right: 4%; }  .brand { position: static; margin-bottom: 8px; } body { flex-direction: column; } }
 
   @media (prefers-reduced-motion: reduce) {
     .gear, .bar, .star, .deco, .cloud-a, .cloud-b, .ring { animation: none; }
@@ -210,13 +209,36 @@
 
     <div class="headline"><strong>Under<br>Maintenance</strong></div>
 
-    <div class="timer" id="timer" aria-live="off">
-      <div class="box"><div class="num">3 November 2026, 12:00 PM</div><div class="label">Coming back with some extraordinary gift for you guys</div></div>
+    <div class="timer">
+      <div class="when">3 November 2026, <span>12:00 PM</span></div>
+      <div class="cd" id="cd" aria-live="off">
+        <div class="box"><div class="num" id="d">00</div><div class="label">Days</div></div>
+        <div class="box"><div class="num" id="h">00</div><div class="label">Hours</div></div>
+        <div class="box"><div class="num" id="m">00</div><div class="label">Minutes</div></div>
+        <div class="box"><div class="num" id="s">00</div><div class="label">Seconds</div></div>
+      </div>
+      <div class="msg">Coming back with some extraordinary gift for you guys</div>
     </div>
   </div>
 
   <footer>&copy; 2026 eBuddha Digitech. All rights reserved.</footer>
 </main>
+
+<script>
+  // Counts down to 3 Nov 2026, 12:00 PM (visitor's local time).
+  var end = new Date(2026, 10, 3, 12, 0, 0).getTime();
+  var pad = function (n) { return String(n).padStart(2, "0"); };
+  function tick() {
+    var left = Math.max(0, end - Date.now());
+    document.getElementById("d").textContent = pad(Math.floor(left / 86400000));
+    document.getElementById("h").textContent = pad(Math.floor(left / 3600000) % 24);
+    document.getElementById("m").textContent = pad(Math.floor(left / 60000) % 60);
+    document.getElementById("s").textContent = pad(Math.floor(left / 1000) % 60);
+    if (left === 0) clearInterval(id);
+  }
+  var id = setInterval(tick, 1000);
+  tick();
+</script>
 
 </body>
 </html>
