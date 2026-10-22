@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Coming Soon</title>
+<title>Under Maintenance</title>
 <style>
   @font-face { font-family: "Poppins"; font-weight: 400; font-display: swap; src: url("fonts/poppins-400.ttf") format("truetype"); }
   @font-face { font-family: "Poppins"; font-weight: 600; font-display: swap; src: url("fonts/poppins-600.ttf") format("truetype"); }
@@ -51,7 +51,7 @@
   }
   .headline strong {
     display: block;
-    font-size: clamp(2rem, 9vw, 7.5rem);
+    font-size: clamp(1.5rem, 6vw, 5rem);
     font-weight: 800;
     letter-spacing: -.01em;
     color: var(--sky);
@@ -87,7 +87,8 @@
   /* Timer */
   .timer {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1fr;
+    text-align: center;
     position: absolute;
     top: 93%; left: 50%;
     transform: translateX(-50%);
@@ -231,48 +232,15 @@
       </g>
     </svg>
 
-    <div class="headline"><small>Very Soon</small><strong>Launching</strong></div>
+    <div class="headline"><strong>Under<br>Maintenance</strong></div>
 
     <div class="timer" id="timer" aria-live="off">
-      <div class="box"><div class="num" id="d">04</div><div class="label">Days</div></div>
-      <div class="box"><div class="num" id="h">00</div><div class="label">Hours</div></div>
-      <div class="box"><div class="num" id="m">00</div><div class="label">Minutes</div></div>
-      <div class="box"><div class="num" id="s">00</div><div class="label">Seconds</div></div>
+      <div class="box"><div class="num">3 November 2026, 12:00 PM</div><div class="label">Coming back with some extraordinary gift for you guys</div></div>
     </div>
   </div>
-
-  <div class="done" id="done">We're live! 🎉</div>
 
   <footer>&copy; 2026 eBuddha Digitech. All rights reserved.</footer>
 </main>
 
-<script>
-  // 4-day countdown. The end time is saved so a page refresh doesn't restart it.
-  var DURATION = 4 * 24 * 60 * 60 * 1000;
-  var KEY = "comingSoonEnd";
-  var end;
-  try { end = parseInt(localStorage.getItem(KEY), 10); } catch (e) {}
-  if (!end) {
-    end = Date.now() + DURATION;
-    try { localStorage.setItem(KEY, end); } catch (e) {}
-  }
-
-  var pad = function (n) { return String(n).padStart(2, "0"); };
-
-  function tick() {
-    var left = Math.max(0, end - Date.now());
-    document.getElementById("d").textContent = pad(Math.floor(left / 86400000));
-    document.getElementById("h").textContent = pad(Math.floor(left / 3600000) % 24);
-    document.getElementById("m").textContent = pad(Math.floor(left / 60000) % 60);
-    document.getElementById("s").textContent = pad(Math.floor(left / 1000) % 60);
-    if (left === 0) {
-      document.getElementById("timer").style.display = "none";
-      document.getElementById("done").style.display = "block";
-      clearInterval(id);
-    }
-  }
-  var id = setInterval(tick, 1000);
-  tick();
-</script>
 </body>
 </html>
