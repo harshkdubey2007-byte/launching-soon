@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Under Maintenance</title>
 <style>
   @font-face { font-family: "Poppins"; font-weight: 400; font-display: swap; src: url("fonts/poppins-400.ttf") format("truetype"); }
@@ -32,7 +32,7 @@
   /* Scene */
   .scene { position: relative; width: fit-content; max-width: 100%; margin: 0 auto; }
   /* scene height is capped so the scene and the timer both fit on one screen */
-  .scene svg { display: block; aspect-ratio: 800 / 456; height: min(57vw, calc(100vh - 200px), 730px); width: auto; max-width: 100%; }
+  .scene svg { display: block; aspect-ratio: 800 / 456; height: min(57vw, calc(100vh - 290px), 730px); width: auto; max-width: 100%; }
   .headline {
     position: absolute;
     top: 0; right: 6%;
@@ -125,7 +125,25 @@
   .spark-r { right: 4%; top: 38%; width: clamp(18px, 2.2vw, 32px); animation: twinkle 3s ease-in-out -1s infinite; }
   @keyframes bob { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-14px) rotate(4deg); } }
   @media (max-width: 1000px) { .deco { display: none; } }
-  @media (max-width: 600px) { .scene svg { height: auto; width: 100%; } .headline { right: 4%; }  .brand { position: static; margin-bottom: 8px; } body { flex-direction: column; } }
+  .wa { display: flex; align-items: center; justify-content: center; gap: 10px; width: fit-content; max-width: 100%; margin: 18px auto 0; padding: 14px 18px; border-radius: 14px; background: #25d366; color: #fff; font-weight: 600; font-size: 1.05rem; text-decoration: none; box-shadow: 0 10px 22px rgba(37, 211, 102, .35); }
+  .wa svg { width: 26px; height: 26px; }
+  .wa:active { transform: scale(.98); }
+  @media (max-width: 600px) {
+    .wa { width: 100%; margin-top: 16px; }
+    body { flex-direction: column; justify-content: flex-start; padding: 12px 12px max(16px, env(safe-area-inset-bottom)); min-height: 100dvh; }
+    .brand { position: static; margin: 4px auto 0; }
+    .brand img { height: 64px; }
+    .scene { width: 100%; display: flex; flex-direction: column; }
+    .scene svg { height: auto; width: 100%; margin-top: -14%; }
+    .headline { position: static; order: -1; text-align: center; margin: 8px 0 10px; }
+    .headline strong { font-size: clamp(2rem, 11vw, 2.8rem); line-height: 1.02; }
+    .timer { width: 100%; margin-top: -26px; padding: 14px 10px; }
+    .when { font-size: 1.15rem; }
+    .num { font-size: 1.7rem; }
+    .label { font-size: .62rem; }
+    .msg { font-size: .7rem; letter-spacing: .06em; }
+    footer { margin-top: 16px; font-size: .72rem; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .gear, .bar, .star, .deco, .cloud-a, .cloud-b, .ring { animation: none; }
@@ -220,6 +238,11 @@
       <div class="msg">Coming back with some extraordinary gift for you guys</div>
     </div>
   </div>
+
+  <a class="wa" href="https://wa.me/918461958162" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2a9.9 9.9 0 0 0-8.5 14.95L2 22l5.2-1.5A9.94 9.94 0 1 0 12.04 2zm0 18.1c-1.5 0-2.95-.4-4.2-1.15l-.3-.18-3.1.9.9-3-.2-.3a8.1 8.1 0 1 1 6.9 3.73zm4.45-6.05c-.25-.12-1.45-.72-1.68-.8-.23-.08-.4-.12-.56.12-.17.25-.65.8-.8.96-.15.17-.3.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.1-.5.12-.11.25-.3.37-.45.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.17-.47-.29z"/></svg>
+    Chat on WhatsApp
+  </a>
 
   <footer>&copy; 2026 eBuddha Digitech. All rights reserved.</footer>
 </main>
