@@ -58,7 +58,12 @@
   }
 
   /* SVG animation */
-  .rocket { animation: shake .12s linear infinite; }
+  .gear { transform-box: view-box; animation: spin 10s linear infinite; }
+  .gear.rev { animation-direction: reverse; animation-duration: 6.4s; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .gear { transform-box: fill-box; transform-origin: 50% 50%; }
+  .bar { transform-box: fill-box; transform-origin: 0 50%; animation: load 4s ease-in-out infinite; }
+  @keyframes load { 0% { transform: scaleX(.1); } 70%,100% { transform: scaleX(.72); } }
   @keyframes shake { 0%,100% { transform: translate(0,0); } 25% { transform: translate(1px,-2px); } 75% { transform: translate(-1px,2px); } }
   .flame { transform-box: fill-box; transform-origin: 50% 0; animation: flicker .25s ease-in-out infinite alternate; }
   @keyframes flicker { from { transform: scaleY(1) scaleX(1); } to { transform: scaleY(1.12) scaleX(.94); } }
@@ -124,7 +129,7 @@
   @media (max-width: 600px) { .brand { position: static; margin-bottom: 8px; } body { flex-direction: column; } }
 
   @media (prefers-reduced-motion: reduce) {
-    .rocket, .flame, .star, .deco, .cloud-a, .cloud-b, .ring { animation: none; }
+    .gear, .bar, .star, .deco, .cloud-a, .cloud-b, .ring { animation: none; }
   }
 </style>
 </head>
@@ -151,85 +156,56 @@
 
 <main>
   <div class="scene">
-    <svg viewBox="0 0 800 456" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rocket launching">
+    <svg viewBox="0 0 800 456" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gears turning: site under maintenance">
       <defs>
         <linearGradient id="dome" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#001a52"/>
-          <stop offset=".55" stop-color="#003a9a"/>
-          <stop offset="1" stop-color="#0a78d6"/>
+          <stop offset="0" stop-color="#001a52"/><stop offset=".55" stop-color="#003a9a"/><stop offset="1" stop-color="#0a78d8"/>
         </linearGradient>
-        <linearGradient id="fire" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#ffe066"/>
-          <stop offset="1" stop-color="#ffb12e"/>
-        </linearGradient>
+        <linearGradient id="gearg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4fd6ff"/><stop offset="1" stop-color="#00baf2"/></linearGradient>
+        <clipPath id="clip"><path d="M60 440 A340 340 0 0 1 740 440 Z"/></clipPath>
+        <pattern id="hazard" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="40" height="40" fill="#ffd54f"/><rect width="20" height="40" fill="#002970"/>
+        </pattern>
       </defs>
+      <path d="M60 440 A340 340 0 0 1 740 440 Z" fill="url(#dome)"/>
+      <g clip-path="url(#clip)">
+        <circle class="ring" cx="400" cy="440" r="230" fill="none" stroke="#fff" stroke-opacity=".3"/>
+        <g fill="#fff"><circle class="star" cx="170" cy="260" r="2"/><circle class="star" cx="250" cy="140" r="1.5"/><circle class="star" cx="620" cy="170" r="2"/><circle class="star" cx="680" cy="300" r="1.5"/><circle class="star" cx="560" cy="110" r="1.5"/></g>
 
-      <!-- dome -->
-      <path d="M60 400 A340 340 0 0 1 740 400 Z" fill="url(#dome)"/>
-      <circle class="ring" cx="400" cy="400" r="215" fill="none" stroke="#fff" stroke-width="1.2"/>
-
-      <!-- stars -->
-      <g fill="#fff">
-        <circle class="star" cx="140" cy="300" r="1.6"/><circle class="star" cx="210" cy="190" r="1.2"/>
-        <circle class="star" cx="300" cy="120" r="1.5"/><circle class="star" cx="250" cy="260" r="1.1"/>
-        <circle class="star" cx="520" cy="130" r="1.3"/><circle class="star" cx="600" cy="200" r="1.6"/>
-        <circle class="star" cx="660" cy="290" r="1.2"/><circle class="star" cx="560" cy="300" r="1.1"/>
-        <circle class="star" cx="180" cy="350" r="1.3"/><circle class="star" cx="690" cy="350" r="1.5"/>
-        <circle class="star" cx="340" cy="210" r="1"/><circle class="star" cx="470" cy="200" r="1.2"/>
-      </g>
-
-      <!-- launch tower -->
-      <g stroke="#0b1b3a" stroke-width="5" stroke-linecap="round">
-        <line x1="364" y1="365" x2="364" y2="455"/>
-        <line x1="436" y1="365" x2="436" y2="455"/>
-        <line x1="364" y1="390" x2="380" y2="405"/><line x1="436" y1="390" x2="420" y2="405"/>
-        <line x1="364" y1="420" x2="380" y2="435"/><line x1="436" y1="420" x2="420" y2="435"/>
-      </g>
-
-      <!-- rocket -->
-      <g class="rocket">
-        <!-- flame -->
-        <path class="flame" d="M372 366 L428 366 L418 425 L400 455 L382 425 Z" fill="url(#fire)"/>
-        <!-- boosters -->
-        <rect x="322" y="215" width="22" height="115" rx="11" fill="#f1f4ff"/>
-        <rect x="456" y="215" width="22" height="115" rx="11" fill="#f1f4ff"/>
-        <!-- fins -->
-        <path d="M352 285 L302 340 Q296 356 312 356 L352 356 Z" fill="#00baf2"/>
-        <path d="M448 285 L498 340 Q504 356 488 356 L448 356 Z" fill="#00baf2"/>
-        <!-- body -->
-        <path d="M400 125 C434 125 452 190 452 255 L452 345 Q452 358 440 358 L360 358 Q348 358 348 345 L348 255 C348 190 366 125 400 125 Z" fill="#ffffff"/>
-        <path d="M430 150 C446 190 452 225 452 262 L452 345 Q452 358 440 358 L420 358 Q432 340 432 300 C432 230 428 185 418 150 Z" fill="#dfe6fb"/>
-        <!-- smile -->
-        <path d="M380 188 Q400 170 420 188" fill="none" stroke="#002970" stroke-width="5" stroke-linecap="round"/>
-        <!-- window -->
-        <circle cx="400" cy="252" r="22" fill="#00baf2"/>
-        <circle cx="400" cy="252" r="16" fill="#fff" opacity=".18"/>
-        <path d="M392 262 V246 M400 262 V240 M408 262 V250" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
-        <!-- base band -->
-        <rect x="348" y="346" width="104" height="14" rx="3" fill="#00baf2"/>
-      </g>
-
-      <!-- clouds (white, in front) -->
-      <g fill="#fff">
-        <g class="cloud-a">
-          <circle cx="95" cy="415" r="52"/><circle cx="175" cy="408" r="46"/>
-          <circle cx="262" cy="425" r="42"/><circle cx="335" cy="440" r="36"/>
+        <!-- big gear -->
+        <g transform="translate(330 285)">
+          <g class="gear">
+            <circle r="76" fill="none" stroke="url(#gearg)" stroke-width="26" stroke-dasharray="26.7 26.7"/>
+            <circle r="66" fill="url(#gearg)"/>
+            <circle r="26" fill="#002970"/><circle r="12" fill="#fff"/>
+            <g stroke="#002970" stroke-width="7" stroke-linecap="round" opacity=".35"><path d="M0 -60V-34M52 -30L30 -17M52 30L30 17M0 60V34M-52 30L-30 17M-52 -30L-30 -17"/></g>
+          </g>
         </g>
-        <g class="cloud-b">
-          <circle cx="705" cy="415" r="52"/><circle cx="625" cy="408" r="46"/>
-          <circle cx="538" cy="425" r="42"/><circle cx="465" cy="440" r="36"/>
+        <!-- small gear -->
+        <g transform="translate(468 232)">
+          <g class="gear rev">
+            <circle r="46" fill="none" stroke="#fff" stroke-width="18" stroke-dasharray="18 18"/>
+            <circle r="40" fill="#fff"/>
+            <circle r="16" fill="#002970"/><circle r="7" fill="#00baf2"/>
+          </g>
         </g>
-        <g class="cloud-a delay">
-          <circle cx="95" cy="415" r="52"/><circle cx="175" cy="408" r="46"/>
-          <circle cx="262" cy="425" r="42"/><circle cx="335" cy="440" r="36"/>
+        <!-- tiny gear -->
+        <g transform="translate(540 330)">
+          <g class="gear">
+            <circle r="27" fill="none" stroke="#00baf2" stroke-width="11" stroke-dasharray="11 11"/>
+            <circle r="24" fill="#00baf2"/><circle r="9" fill="#002970"/>
+          </g>
         </g>
-        <g class="cloud-b delay">
-          <circle cx="705" cy="415" r="52"/><circle cx="625" cy="408" r="46"/>
-          <circle cx="538" cy="425" r="42"/><circle cx="465" cy="440" r="36"/>
+        <!-- progress bar -->
+        <g transform="translate(250 395)">
+          <rect width="300" height="14" rx="7" fill="#fff" fill-opacity=".2"/>
+          <rect class="bar" width="300" height="14" rx="7" fill="#00baf2"/>
         </g>
-        <circle cx="400" cy="462" r="40"/><circle cx="350" cy="455" r="30"/><circle cx="452" cy="455" r="30"/>
-        <rect x="0" y="440" width="800" height="16"/>
+        <!-- hazard tape -->
+        <rect x="0" y="418" width="800" height="22" fill="url(#hazard)"/>
       </g>
+      <!-- sparks -->
+      <g fill="#ffd54f"><path class="star" d="M600 120l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/><path class="star" d="M190 190l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/></g>
     </svg>
 
     <div class="headline"><strong>Under<br>Maintenance</strong></div>
